@@ -1,8 +1,8 @@
-package com.example.backend.controller;
+package com.example.backend.entity;
 import com.example.backend.entity.Expense;
 import com.example.backend.entity.User;
 import com.example.backend.repository.UserRepository;
-import com.example.backend.service.ExpenseService;
+// import com.example.backend.service.ExpenseService; Expense service not found
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;

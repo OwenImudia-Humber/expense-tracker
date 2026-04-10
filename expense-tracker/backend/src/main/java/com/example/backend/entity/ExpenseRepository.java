@@ -1,6 +1,6 @@
-package com.example.backend.repository;
+package com.example.backend.entity;
 
-import com.example.backend.entity.Expense;
+// import com.example.backend.entity.Expense; not used
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDate;

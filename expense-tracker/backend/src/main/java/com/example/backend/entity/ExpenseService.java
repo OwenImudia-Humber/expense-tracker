@@ -1,7 +1,7 @@
-package com.example.backend.service;
+package com.example.backend.entity;
 
-import com.example.backend.entity.Expense;
-import com.example.backend.repository.ExpenseRepository;
+// import com.example.backend.entity.Expense; never used
+// import com.example.backend.repository.ExpenseRepository; Expense repository not found
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;

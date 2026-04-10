@@ -1,11 +1,14 @@
 // service/ReportService.java
 
-package main.java.com.example.backend.service;
+package com.example.backend.service;
+import java.time.Month;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.example.backend.repository.ExpenseRepository;
+import com.example.backend.entity.Expense;
+import com.example.backend.entity.ExpenseRepository;
 
 @Service
 public class ReportService {
