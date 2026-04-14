@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.LoginRequest;
 import com.example.backend.dto.RegisterRequest;
+import com.example.backend.entity.Role;
 import com.example.backend.entity.User;
 import com.example.backend.service.UserService;
 
@@ -22,13 +23,18 @@ public class AuthController {
     // REGISTER
     @PostMapping("/register")
     public String register(@RequestBody RegisterRequest request) {
+        if (userService.existsByUsername(request.getUsername())) {
+            return "Username already taken";
+        }
+        if (userService.existsByEmail(request.getEmail())) {
+            return "Email already registered";
+        }
 
         User user = new User();
-        user.setUsername(request.username);
-        user.setEmail(request.email);
-
-        // encrypt password
-        user.setPassword(passwordEncoder.encode(request.password));
+        user.setUsername(request.getUsername().trim());
+        user.setEmail(request.getEmail().trim().toLowerCase());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.USER);
 
         userService.saveUser(user);
 
@@ -39,13 +45,13 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest request) {
 
-        User user = userService.findByUsername(request.username);
+        User user = userService.findByUsername(request.getUsername());
 
         if (user == null) {
             return "User not found";
         }
 
-        if (passwordEncoder.matches(request.password, user.getPassword())) {
+        if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             return "Login successful";
         } else {
             return "Invalid credentials";

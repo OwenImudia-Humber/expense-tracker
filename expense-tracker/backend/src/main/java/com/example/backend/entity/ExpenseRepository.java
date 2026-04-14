@@ -10,6 +10,10 @@ import java.util.List;
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     List<Expense> findByUserId(Long userId);
-    List<Expense> findByUserIdAndCategory(Long userId, String category);
+
+    List<Expense> findTop10ByUserIdOrderByDateDesc(Long userId);
+
+    List<Expense> findByUserIdAndCategory(Long userId, ExpenseCategory category);
+
     List<Expense> findByUserIdAndDateBetween(Long userId, LocalDate startDate, LocalDate endDate);
 }

@@ -24,6 +24,12 @@ public class ExpenseService {
         return expenseRepository.findByUserId(userId);
     }
 
+    public List<Expense> getRecentExpenses(Long userId, int limit) {
+        return expenseRepository.findTop10ByUserIdOrderByDateDesc(userId).stream()
+                .limit(limit)
+                .toList();
+    }
+
     public Optional<Expense> getExpenseById(Long id) {
         return expenseRepository.findById(id);
     }
@@ -51,10 +57,15 @@ public class ExpenseService {
     }
 
     // Filter expenses by category
-    public List<Expense> getExpensesByCategory(Long userId, String category) {
+    public List<Expense> getExpensesByCategory(Long userId, ExpenseCategory category) {
         return expenseRepository.findByUserIdAndCategory(userId, category);
     }
     public List<Expense> getExpensesByDateRange(Long userId, LocalDate startDate, LocalDate endDate) {
         return expenseRepository.findByUserIdAndDateBetween(userId, startDate, endDate);
+    }
+
+    public Optional<Expense> getExpenseOwnedBy(Long expenseId, Long userId) {
+        return expenseRepository.findById(expenseId)
+                .filter(e -> e.getUser().getId().equals(userId));
     }
 }

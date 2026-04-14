@@ -39,7 +39,6 @@ public class ReportService {
         // same thing as above but instead of summing up all the expenses it groups them by month and sums them up for each month to get the total expenses for each month
                 .stream()
                 .collect(Collectors.groupingBy(
-                    // this gets the month from the date of each expense and uses it as the key for grouping the expenses
                     expense -> expense.getDate().getMonth(),
                     // this sums up the amount of each expense in the same month to get the total expenses for that month
                     Collectors.summingDouble(expense -> expense.getAmount().doubleValue())
@@ -49,13 +48,32 @@ public class ReportService {
     // Category breakdown
     public Map<String, Double> getCategoryBreakdown(Long userId) {
         return expenseRepository.findByUserId(userId)
-        // same thing as above but instead of grouping by month it groups by category to get the total expenses for each category
                 .stream()
                 .collect(Collectors.groupingBy(
-                    // this gets the category of each expense and uses it as the key for grouping the expenses
-                    Expense::getCategory,
-                    // this sums up the amount of each expense in the same category to get the total expenses for that category
+                    e -> e.getCategory().name(),
                     Collectors.summingDouble(expense -> expense.getAmount().doubleValue())
+                ));
+    }
+
+    public Double getTotalExpensesAllUsers() {
+        return expenseRepository.findAll().stream()
+                .mapToDouble(e -> e.getAmount().doubleValue())
+                .sum();
+    }
+
+    public Map<Month, Double> getMonthlyExpensesAllUsers() {
+        return expenseRepository.findAll().stream()
+                .collect(Collectors.groupingBy(
+                    e -> e.getDate().getMonth(),
+                    Collectors.summingDouble(e -> e.getAmount().doubleValue())
+                ));
+    }
+
+    public Map<String, Double> getCategoryBreakdownAllUsers() {
+        return expenseRepository.findAll().stream()
+                .collect(Collectors.groupingBy(
+                    e -> e.getCategory().name(),
+                    Collectors.summingDouble(e -> e.getAmount().doubleValue())
                 ));
     }
 }

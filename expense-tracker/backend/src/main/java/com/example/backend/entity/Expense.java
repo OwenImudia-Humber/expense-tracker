@@ -13,8 +13,9 @@ public class Expense {
     @Column(nullable = false)
     private Double amount;
 
-    @Column(nullable = false)
-    private String category;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 32)
+    private ExpenseCategory category;
 
     @Column(nullable = false)
     private LocalDate date;
@@ -34,8 +35,8 @@ public class Expense {
     public Double getAmount() { return amount; }
     public void setAmount(Double amount) { this.amount = amount; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public ExpenseCategory getCategory() { return category; }
+    public void setCategory(ExpenseCategory category) { this.category = category; }
 
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }

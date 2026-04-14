@@ -39,7 +39,7 @@ public class ExpenseController {
     @GetMapping
     public ResponseEntity<List<Expense>> getExpenses(
             @RequestParam Long userId,
-            @RequestParam(required = false) String category,
+            @RequestParam(required = false) ExpenseCategory category,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 

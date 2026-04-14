@@ -1,0 +1,64 @@
+:root {
+  --et-primary: #2563eb;
+  --et-primary-dark: #1d4ed8;
+  --et-surface: #f8fafc;
+  --et-card: #ffffff;
+  --et-text: #0f172a;
+  --et-muted: #64748b;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--et-surface);
+  color: var(--et-text);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  border-radius: 0.75rem;
+}
+
+.card-header {
+  background: transparent;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-color: var(--et-primary);
+  border-color: var(--et-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--et-primary-dark);
+  border-color: var(--et-primary-dark);
+}
+
+.stat-pill {
+  font-size: 0.85rem;
+  color: var(--et-muted);
+}
+
+.stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.table thead th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--et-muted);
+  border-bottom-width: 1px;
+}
+
+.hero-title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}

@@ -20,19 +20,17 @@ public class ReportController {
 
     // This gets the totals based on user id
     @GetMapping("/total/{id}")
-    public Double getTotalExpenses(@PathVariable Long userId) {
+    public Double getTotalExpenses(@PathVariable("id") Long userId) {
         return reportService.getTotalExpenses(userId);
     }
 
-    // This gets monthly totals based on user id
     @GetMapping("/monthly-summary/{id}")
-    public Map<Month, Double> getMonthlyExpenses(@PathVariable Long userId){
+    public Map<Month, Double> getMonthlyExpenses(@PathVariable("id") Long userId) {
         return reportService.getMonthlyExpenses(userId);
     }
 
-    // this gets category breakdowns
     @GetMapping("/category-breakdown/{id}")
-    public Map<String, Double> getCategoryBreakdown(@PathVariable Long userId){
+    public Map<String, Double> getCategoryBreakdown(@PathVariable("id") Long userId) {
         return reportService.getCategoryBreakdown(userId);
     }
     
