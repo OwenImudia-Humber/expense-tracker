@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin demo panel · Expense Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link th:href="@{/css/app.css}" rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="~{fragments :: navbar(active='demo')}"></div>
+
+<div class="container py-4">
+  <div class="mb-4">
+    <h1 class="h3 hero-title mb-1">Admin demo panel</h1>
+    <p class="text-muted mb-0">Populate or reset data for presentations. Admin-only.</p>
+  </div>
+
+  <div th:if="${demoMessage}" class="alert alert-success" th:text="${demoMessage}"></div>
+  <div th:if="${demoError}" class="alert alert-danger" th:text="${demoError}"></div>
+
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div class="card h-100">
+        <div class="card-header">Dummy users</div>
+        <div class="card-body">
+          <p class="small text-muted">Creates accounts with prefix <code>demo_user_</code> and password <code th:text="${demoPasswordPlain}">demo123</code>.</p>
+          <form th:action="@{/admin/demo/dummy-users}" method="post" class="row g-2 align-items-end">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <div class="col-8">
+              <label class="form-label small mb-0">How many users</label>
+              <input class="form-control" type="number" name="count" min="1" max="25" value="5" required/>
+            </div>
+            <div class="col-4 d-grid">
+              <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card h-100">
+        <div class="card-header">Random expenses</div>
+        <div class="card-body">
+          <p class="small text-muted mb-2">Random category, amount, and day within the chosen year.</p>
+          <form th:action="@{/admin/demo/random-expenses}" method="post" class="vstack gap-2">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <div>
+              <label class="form-label small mb-0">Scope</label>
+              <select class="form-select" name="scope" required>
+                <option value="ALL_USERS">All users - each user gets N expenses</option>
+                <option value="CURRENT_ADMIN" selected>Current admin only - N expenses</option>
+                <option value="SELECTED_USER">Selected user - N expenses</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label small mb-0">User (only for SELECTED_USER)</label>
+              <select class="form-select" name="userId">
+                <option value="">— choose yo —</option>
+                <option th:each="u : ${users}" th:value="${u.id}" th:text="${u.username + ' · ' + u.email}">user</option>
+              </select>
+            </div>
+            <div class="row g-2">
+              <div class="col-6">
+                <label class="form-label small mb-0">Year</label>
+                <input class="form-control" type="number" name="year" th:value="${defaultYear}" min="2000" max="2100" required/>
+              </div>
+              <div class="col-6">
+                <label class="form-label small mb-0">Count (N)</label>
+                <input class="form-control" type="number" name="count" min="1" max="500" value="12" required/>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Generate expenses</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card border-danger h-100">
+        <div class="card-header bg-danger-subtle">Danger zone</div>
+        <div class="card-body vstack gap-3">
+          <div>
+            <p class="small text-muted mb-2">Deletes <strong>every</strong> expense row for <strong>all</strong> users (users stay).</p>
+            <form th:action="@{/admin/demo/delete-all-expenses}" method="post"
+                  onsubmit="return confirm('Delete ALL expenses for every user? This cannot be undone.');">
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+              <button type="submit" class="btn btn-outline-danger">Remove all expenses</button>
+            </form>
+          </div>
+          <div>
+            <p class="small text-muted mb-2">Removes only demo accounts (<code>demo_user_*</code>) and their expenses.</p>
+            <form th:action="@{/admin/demo/delete-demo-users}" method="post"
+                  onsubmit="return confirm('Delete all demo_user_* accounts and their expenses?');">
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+              <button type="submit" class="btn btn-outline-secondary">Remove demo users</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
